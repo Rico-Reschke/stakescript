@@ -112,6 +112,22 @@ async function addVisualOverlay() {
       }
     };
 
+    function updateProfitInDollar() {
+      // Der im zweiten Input-Element angezeigte Wert repräsentiert den Gewinn in Bitcoin
+      const profitInBtc = parseFloat(zweitesNeuesElement.value);
+
+      // Berechnung des Gewinns in Dollar
+      const profitInDollar = profitInBtc * currentBitcoinPriceInDollar;
+
+      // Finde das <div> Element, das den Gesamtgewinn in Dollar anzeigen soll
+      const profitDisplayDiv = document.querySelector(
+        "span.label-content.full-width.svelte-1vx6ykn > div.right-align.svelte-5v1hdl > div.currency-conversion.svelte-eh26te > div.svelte-eh26te"
+      );
+      if (profitDisplayDiv) {
+        profitDisplayDiv.textContent = `$${profitInDollar.toFixed(2)}`;
+      }
+    }
+
     const calculators = async () => {
       await wait_for(
         () => document.querySelectorAll('span[slot="label"]').length >= 4
@@ -132,6 +148,7 @@ async function addVisualOverlay() {
             zweitesNeuesElement.value = newValue.toFixed(8); // Aktualisiere den Wert des zweiten Input-Elements
             lastCalculatedValue = newValue.toFixed(8);
             updateSpanElementWhenAvailable();
+            updateProfitInDollar();
           }
         } else {
           console.log(
