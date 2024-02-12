@@ -23,12 +23,6 @@ function setzeGuthaben() {
 
 setzeGuthaben();
 
-
-
-
-
-
-
 const wait_for = (conditional, interval = 100) => {
   return new Promise((resolve) => {
     const intervalId = setInterval(() => {
@@ -40,7 +34,22 @@ const wait_for = (conditional, interval = 100) => {
   });
 };
 
+const currentBitcoinPriceInDollar = 46132; // Beispielwert
+
 async function addVisualOverlay() {
+  function calculateAndDisplayDollarValue() {
+    const btcAmount = parseFloat(neuesElement.value); // Der vom Benutzer eingegebene Bitcoin-Betrag
+    const valueInDollar = btcAmount * currentBitcoinPriceInDollar; // Berechnung des Dollarwerts
+
+    // Finde das <div> Element, das den Dollarwert anzeigen soll
+    const dollarValueDisplay = document.querySelector(
+      'div[class="svelte-eh26te"]'
+    );
+    if (dollarValueDisplay) {
+      dollarValueDisplay.textContent = `$${valueInDollar.toFixed(2)}`; // Aktualisiere den Text des Elements mit dem berechneten Wert
+    }
+  }
+
   const elternelement = document.querySelector(
     'input[data-test="input-game-amount"]'
   ).parentNode;
@@ -173,6 +182,7 @@ async function addVisualOverlay() {
   // Event Listener für Änderungen am ersten Input-Element
   neuesElement.addEventListener("input", () => {
     updateSecondInputElement(); // Zweites Input-Element bei jeder Änderung aktualisieren
+    calculateAndDisplayDollarValue();
   });
 
   // Zweites Input-Element initial mit dem Startwert des ersten Elements aktualisieren
