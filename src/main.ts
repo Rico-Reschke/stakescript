@@ -1,27 +1,4 @@
-function setzeGuthaben() {
-  // Auswahl des Wallet-Elements
-  const wallet = document.querySelector(
-    'span[style="max-width: 16ch;"][class="weight-semibold line-height-default align-left size-default text-size-default variant-highlighted numeric with-icon-space truncate svelte-1d6bfct"]'
-  );
-  let aktuellesGuthaben = wallet.textContent;
-
-  // Eingabeaufforderung für neues Guthaben
-  let neuesGuthaben = prompt(
-    "Bitte neues Guthaben eingeben:",
-    aktuellesGuthaben
-  );
-
-  if (neuesGuthaben !== null && wallet) {
-    // Aktualisieren des Guthabens im <span>-Element
-    wallet.textContent = neuesGuthaben;
-
-    console.log("Neues Guthaben gesetzt:", neuesGuthaben);
-  } else {
-    console.log("Kein neues Guthaben gesetzt oder Elemente nicht gefunden.");
-  }
-}
-
-setzeGuthaben();
+const currentBitcoinPriceInDollar = 46132; // Beispielwert
 
 const wait_for = (conditional, interval = 100) => {
   return new Promise((resolve) => {
@@ -34,10 +11,9 @@ const wait_for = (conditional, interval = 100) => {
   });
 };
 
-const currentBitcoinPriceInDollar = 46132; // Beispielwert
-
 async function addVisualOverlay() {
   function calculateAndDisplayDollarValue() {
+    console.log("calculateAndDisplayDollarValue");
     const btcAmount = parseFloat(neuesElement.value); // Der vom Benutzer eingegebene Bitcoin-Betrag
     const valueInDollar = btcAmount * currentBitcoinPriceInDollar; // Berechnung des Dollarwerts
 
@@ -65,6 +41,7 @@ async function addVisualOverlay() {
   elternelement.appendChild(neuesElement);
 
   const updateSecondInputElement = async () => {
+    console.log("updateSecondInputElement");
     // Warten, bis das zweite Input-Element bereit ist
     await wait_for(
       () => document.querySelector('input[data-test="profit-input"]') !== null
@@ -95,7 +72,31 @@ async function addVisualOverlay() {
     let lastMultiplier = null; // Speichert den letzten Multiplikatorwert
     let lastCalculatedValue = null; // Speichert den zuletzt berechneten Wert für das <span> Element
 
+    function aktualisiereGuthabenBeiGewinn(gewinnInBitcoin) {
+      console.log("aktualisiereGuthabenBeiGewinn");
+      // Auswahl des Wallet-Elements, das das aktuelle Guthaben anzeigt
+      const wallet = document.querySelector(
+        'span[style="max-width: 16ch;"][class="weight-semibold line-height-default align-left size-default text-size-default variant-highlighted numeric with-icon-space truncate svelte-1d6bfct"]'
+      );
+
+      if (!wallet) {
+        console.log("Wallet-Element nicht gefunden.");
+        return;
+      }
+
+      let aktuellesGuthabenInBitcoin = parseFloat(wallet.textContent) || 0;
+      console.log(aktuellesGuthabenInBitcoin);
+
+      // Aktualisiere das Guthaben um den Gewinn
+      aktuellesGuthabenInBitcoin += gewinnInBitcoin;
+      console.log(aktuellesGuthabenInBitcoin);
+      // Aktualisieren des Guthabens im Wallet-Element
+      wallet.textContent = aktuellesGuthabenInBitcoin.toFixed(8); // Anpassung der Dezimalstellen für Bitcoin
+      console.log(wallet.textContent);
+    }
+
     const updateSpanElementWhenAvailable = async () => {
+      console.log("updateSpanElementWhenAvailable");
       await wait_for(
         () =>
           document.querySelector(
@@ -109,10 +110,12 @@ async function addVisualOverlay() {
       );
       if (spanElement && lastCalculatedValue !== null) {
         spanElement.textContent = lastCalculatedValue;
+        aktualisiereGuthabenBeiGewinn(parseFloat(lastCalculatedValue));
       }
     };
 
     function updateProfitInDollar() {
+      console.log("updateProfitInDollar");
       // Der im zweiten Input-Element angezeigte Wert repräsentiert den Gewinn in Bitcoin
       const profitInBtc = parseFloat(zweitesNeuesElement.value);
 
@@ -129,6 +132,8 @@ async function addVisualOverlay() {
     }
 
     const calculators = async () => {
+      console.log("calculators");
+
       await wait_for(
         () => document.querySelectorAll('span[slot="label"]').length >= 4
       );
@@ -162,6 +167,7 @@ async function addVisualOverlay() {
 
     // MutationObserver und Erstaufruf wie bisher beibehalten
     const observer = new MutationObserver((mutations) => {
+      console.log("MutationObserver");
       mutations.forEach((mutation) => {
         if (
           mutation.type === "characterData" ||
@@ -180,6 +186,7 @@ async function addVisualOverlay() {
   };
 
   document.addEventListener("click", async (event) => {
+    console.log("document.addEventListener");
     const isBetButton = event.target.closest('button[data-test="bet-button"]');
     if (isBetButton) {
       neuesElement.disabled = true; // Deaktivieren des Input-Elements sofort
@@ -198,6 +205,7 @@ async function addVisualOverlay() {
 
   // Event Listener für Änderungen am ersten Input-Element
   neuesElement.addEventListener("input", () => {
+    console.log("neuesElement.addEventListener");
     updateSecondInputElement(); // Zweites Input-Element bei jeder Änderung aktualisieren
     calculateAndDisplayDollarValue();
   });
