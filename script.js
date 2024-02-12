@@ -89,8 +89,8 @@ async function addVisualOverlay() {
       );
       neuesElement.disabled = false; // Reaktivieren des Input-Elements
 
-      // Zweites Input-Element aktualisieren, sobald das erste Element reaktiviert wird
-      updateSecondInputElement();
+      // Aktualisieren, wenn das Spiel vorbei ist und der "Bet"-Button wieder da ist
+      updateSecondInputElement(true); // `true` signalisiert, dass der Spielzyklus neu beginnt
     }
   });
 
@@ -105,22 +105,41 @@ async function addVisualOverlay() {
 
 addVisualOverlay();
 
-
 /// mathe funktion
-const value = "0.00500"; // Ursprünglicher Wert als String
+let lastMultiplier = null; // Speichert den letzten Multiplikatorwert
 
-const calculators = document.querySelectorAll('span[slot="label"]');
-if (calculators.length >= 4) {
-  const fourthCalculator = calculators[3]; // Zugriff auf das vierte Element (Index ist 0-basiert)
-  // Regulärer Ausdruck, um Text innerhalb der runden Klammern zu finden
+const wait_for = (conditional, interval = 100) => {
+  return new Promise((resolve) => {
+    const intervalId = setInterval(() => {
+      if (conditional()) {
+        clearInterval(intervalId);
+        resolve(true);
+      }
+    }, interval);
+  });
+};
+
+const value = "0.005"; // Ursprungswert
+
+async function calculators() {
+  await wait_for(
+    () => document.querySelectorAll('span[slot="label"]').length >= 4
+  );
+
+  const calculators = document.querySelectorAll('span[slot="label"]');
+  const fourthCalculator = calculators[3];
   const match = fourthCalculator.textContent.match(/\(([^)]+)\)/);
   if (match) {
-    const multiplierText = match[1]; // Extrahiert den Text innerhalb der Klammern, z.B. "1.00x"
-    const multiplier = parseFloat(multiplierText); // Wandelt den Text in eine Zahl um, z.B. "1.00x" wird zu 1.00
+    const multiplierText = match[1];
+    const multiplier = parseFloat(multiplierText);
     if (!isNaN(multiplier)) {
-      const originalValue = parseFloat(value); // Wandelt den ursprünglichen Wert-String in eine Zahl um
-      const newValue = originalValue * multiplier; // Berechnet den neuen Wert basierend auf dem Multiplikator
-      console.log(newValue.toFixed(5)); // Gibt den neuen Wert formatiert als String mit fünf Dezimalstellen aus
+      // Überprüfe, ob sich der Multiplikator seit dem letzten Update geändert hat
+      if (multiplier !== lastMultiplier) {
+        lastMultiplier = multiplier; // Aktualisiere den gespeicherten letzten Multiplikatorwert
+        const originalValue = parseFloat(value);
+        const newValue = originalValue * multiplier;
+        console.log(newValue.toFixed(5)); // Gibt den neuen Wert aus, wenn sich der Multiplikator geändert hat
+      }
     } else {
       console.log(
         "Der Multiplikator konnte nicht in eine Zahl umgewandelt werden."
@@ -129,6 +148,19 @@ if (calculators.length >= 4) {
   } else {
     console.log("Kein Text in Klammern gefunden.");
   }
-} else {
-  console.log("Weniger als vier 'span[slot=\"label\"]' Elemente gefunden.");
 }
+
+// MutationObserver und Erstaufruf wie bisher beibehalten
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.type === "characterData" || mutation.type === "childList") {
+      calculators(); // Funktion erneut aufrufen, wenn sich der Text ändert
+    }
+  });
+});
+
+// Die Beobachtung starten
+const config = { characterData: true, childList: true, subtree: true };
+observer.observe(document.body, config); // Ändern Sie den Zielknoten nach Bedarf
+
+calculators(); // Erstmaligen Aufruf der Funktion
