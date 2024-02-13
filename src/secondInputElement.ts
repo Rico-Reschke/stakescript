@@ -1,7 +1,4 @@
-import { globalState } from "./globals";
-import { wait_for } from "./wait_for";
-
-export const secondInputElement = async (elementOverlay: any) => {
+export const secondInputElement = async (firstElementOverlay: any) => {
   // Warten, bis das zweite Input-Element bereit ist
   await wait_for(
     () => document.querySelector('input[data-test="profit-input"]') !== null
@@ -23,7 +20,7 @@ export const secondInputElement = async (elementOverlay: any) => {
   zweitesNeuesElement.type = "text";
   zweitesNeuesElement.className = "input spacing-expanded svelte-3axy6s";
   zweitesNeuesElement.setAttribute("data-test", "profit-input");
-  zweitesNeuesElement.value = elementOverlay.value; // Wert des ersten Elements verwenden
+  zweitesNeuesElement.value = firstElementOverlay.value; // Wert des ersten Elements verwenden
   zweitesNeuesElement.style.backgroundColor = "#2F4553";
   zweitesNeuesElement.style.color = "#ffffff";
   zweitesNeuesElement.readOnly = true;
@@ -101,7 +98,7 @@ export const secondInputElement = async (elementOverlay: any) => {
         // Überprüfe, ob sich der Multiplikator seit dem letzten Update geändert hat
         if (multiplier !== lastMultiplier) {
           lastMultiplier = multiplier; // Aktualisiere den gespeicherten letzten Multiplikatorwert
-          const originalValue = parseFloat(elementOverlay.value); // Bezug auf den aktuellen Wert des ersten Elements
+          const originalValue = parseFloat(firstElementOverlay.value); // Bezug auf den aktuellen Wert des ersten Elements
           const newValue = originalValue * multiplier;
           zweitesNeuesElement.value = newValue.toFixed(8); // Aktualisiere den Wert des zweiten Input-Elements
           lastCalculatedValue = newValue.toFixed(8);
@@ -133,3 +130,5 @@ export const secondInputElement = async (elementOverlay: any) => {
 
   calculators(); // Erstmaligen Aufruf der Funktion
 };
+
+secondInputElement();
