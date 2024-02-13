@@ -1,1 +1,3 @@
-console.log("55");
+import { firstInputElement } from "./firstInputElement";
+
+firstInputElement();
