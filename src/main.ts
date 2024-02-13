@@ -1,3 +1,4 @@
+import { setupDomObserver } from "./domObserver";
 import { globalState } from "./globals";
 import { createAndAddInputElement, updateDollarValueDisplay } from "./utils";
 import { wait_for } from "./wait_for";
@@ -11,7 +12,7 @@ export async function stakeScript() {
   const firstParentElement = document.querySelector(
     'input[data-test="input-game-amount"]'
   )?.parentNode;
-  
+
   if (!(firstParentElement instanceof Element)) {
     throw new Error("First parent element is not an Element");
   }
@@ -59,15 +60,21 @@ export async function stakeScript() {
   }
 
   // Neues Element mit aktuellem Wert erstellen
-  const secondElementOverlay = document.createElement("input");
-  secondElementOverlay.type = "text";
-  secondElementOverlay.className = "input spacing-expanded svelte-3axy6s";
-  secondElementOverlay.setAttribute("data-test", "profit-input");
-  secondElementOverlay.value = firstElementOverlay.value; // Wert des ersten Elements verwenden
-  secondElementOverlay.style.backgroundColor = "#2F4553";
-  secondElementOverlay.style.color = "#ffffff";
-  secondElementOverlay.readOnly = true;
-  secondParentElement?.appendChild(secondElementOverlay);
+  const secondElementOverlay = createAndAddInputElement(secondParentElement, {
+    type: "number", // Stellen Sie sicher, dass der Typ korrekt ist, basierend auf Ihrem Anwendungsfall
+    className: "input spacing-expanded svelte-3axy6s",
+    dataTest: "profit-input", // Stellen Sie sicher, dass der dataTest-Wert korrekt ist, basierend auf Ihrem Anwendungsfall
+    value: firstElementOverlay.value, // Wert des ersten Elements verwenden
+    backgroundColor: "#2F4553",
+    color: "#ffffff",
+    readOnly: true, // Basierend auf Ihrem Anwendungsfall
+  });
+
+  setupDomObserver(firstElementOverlay);
+
+  if (!secondElementOverlay) {
+    throw new Error("Second element overlay could not be created");
+  }
 }
 
 stakeScript();
