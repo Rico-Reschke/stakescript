@@ -28,7 +28,7 @@ export async function stakeScript() {
     type: "number",
     className: "input spacing-expanded svelte-3axy6s",
     dataTest: "input-game-amount",
-    value: "0.00000000",
+    value: "0.00000000", // Startwert
     backgroundColor: "#0F212E",
     color: "#ffffff",
   });
@@ -36,52 +36,41 @@ export async function stakeScript() {
   if (!firstElementOverlay) {
     throw new Error("First element overlay could not be created");
   }
+  const updateSecondInputElement = async () => {
+    await wait_for(
+      () => document.querySelector('input[data-test="profit-input"]') !== null
+    );
 
-  await wait_for(
-    () => document.querySelector('input[data-test="profit-input"]') !== null
-  );
+    const secondParentElement = document.querySelector(
+      'input[data-test="profit-input"]'
+    )?.parentNode;
 
-  const secondParentElement = document.querySelector(
-    'input[data-test="profit-input"]'
-  )?.parentNode;
+    if (!(secondParentElement instanceof Element)) {
+      throw new Error("Second parent element is not an Element");
+    }
 
-  if (!(secondParentElement instanceof Element)) {
-    throw new Error("Second parent element is not an Element");
-  }
+    const secondExistingElement = document.querySelector(
+      'input[data-test="profit-input"]'
+    );
 
-  const secondExistingElement = document.querySelector(
-    'input[data-test="profit-input"]'
-  );
+    if (secondExistingElement) {
+      secondExistingElement.remove();
+    }
 
-  if (secondExistingElement) {
-    secondExistingElement.remove();
-  }
-
-  const secondElementOverlay = createAndAddInputElement(secondParentElement, {
-    type: "number", // Stellen Sie sicher, dass der Typ korrekt ist, basierend auf Ihrem Anwendungsfall
-    className: "input spacing-expanded svelte-3axy6s",
-    dataTest: "profit-input", // Stellen Sie sicher, dass der dataTest-Wert korrekt ist, basierend auf Ihrem Anwendungsfall
-    value: firstElementOverlay.value, // Wert des ersten Elements verwenden
-    backgroundColor: "#2F4553",
-    color: "#ffffff",
-    readOnly: false, // Basierend auf Ihrem Anwendungsfall
-  });
-
-  if (!secondElementOverlay) {
-    throw new Error("Second element overlay could not be created");
-  }
-
-  const betButton = document.querySelector('button[data-test="bet-button"]');
-
-  if (betButton) {
-    betButton.addEventListener("click", () => {
-      // Hier übertragen wir den Wert von firstElementOverlay zu secondElementOverlay
-      const firstValue = firstElementOverlay.value;
-      secondElementOverlay.value = firstValue;
+    const secondElementOverlay = createAndAddInputElement(secondParentElement, {
+      type: "number", // Stellen Sie sicher, dass der Typ korrekt ist, basierend auf Ihrem Anwendungsfall
+      className: "input spacing-expanded svelte-3axy6s",
+      dataTest: "profit-input", // Stellen Sie sicher, dass der dataTest-Wert korrekt ist, basierend auf Ihrem Anwendungsfall
+      value: firstElementOverlay.value, // Wert des ersten Elements verwenden
+      backgroundColor: "#2F4553",
+      color: "#ffffff",
+      readOnly: false, // Basierend auf Ihrem Anwendungsfall
     });
-  } else {
-    console.error("Bet button not found");
-  }
+
+    if (!secondElementOverlay) {
+      throw new Error("Second element overlay could not be created");
+    }
+  };
 }
 
 stakeScript();
