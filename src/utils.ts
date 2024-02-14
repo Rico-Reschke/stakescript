@@ -25,16 +25,3 @@ export function createAndAddInputElement(
 
   return inputElement;
 }
-
-export function updateDollarValueDisplay(
-  amount: number,
-  globalState: { currentBitcoinPriceInDollar: number }
-) {
-  const dollarValueDisplay = document.querySelector(
-    'div[class="svelte-eh26te"]'
-  );
-  if (dollarValueDisplay) {
-    const valueInDollar = amount * globalState.currentBitcoinPriceInDollar;
-    dollarValueDisplay.textContent = `$${valueInDollar.toFixed(2)}`;
-  }
-}
