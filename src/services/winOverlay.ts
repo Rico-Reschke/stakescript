@@ -1,4 +1,4 @@
-import { wait_for } from "./utils/wait_for";
+import { wait_for } from "../utils/wait_for";
 
 let lastValue = ""; // Initialisieren Sie lastValue mit dem Startwert des Elements oder einem leeren String
 
@@ -17,7 +17,7 @@ export const winOverlay = async () => {
   };
 
   // Starten Sie das Intervall, um das Element regelmäßig zu überprüfen
-  setInterval(checkForChanges, 500); // Überprüfen Sie alle 200 Millisekunden
+  setInterval(checkForChanges, 250); // Überprüfen Sie alle 200 Millisekunden
 
   await wait_for(
     () =>

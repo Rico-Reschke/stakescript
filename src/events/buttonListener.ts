@@ -1,7 +1,7 @@
 import { DynamicCurrencyConverter } from "../components/currencyConversion";
 import { updateElementValue } from "../services/gameService";
+import { winOverlay } from "../services/winOverlay";
 import { disableOverlay, enableOverlay } from "../utils/overlayControl";
-import { winOverlay } from "../winOverlay";
 
 export const setupDelegatedButtonListener = () => {
   document.body.addEventListener("click", async (event) => {
@@ -28,7 +28,7 @@ export const setupDelegatedButtonListener = () => {
           enableOverlay('input[data-test="input-game-amount"]'); // Verwendung der enableOverlay Funktion
           clearInterval(intervalId); // Stoppt das Intervall, wenn nicht mehr benötigt
         }
-      }, 500); // Überprüfen alle 500ms
+      }, 250); // Überprüfen alle 500ms
     } else if (
       targetElement &&
       targetElement.dataset.test === "cashout-button"

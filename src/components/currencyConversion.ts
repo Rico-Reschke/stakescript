@@ -53,6 +53,6 @@ export class DynamicCurrencyConverter {
       if (this.secondElementOverlay.value !== this.lastValue) {
         this.updateDisplay();
       }
-    }, 500);
+    }, 250);
   }
 }
