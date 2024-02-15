@@ -65,11 +65,8 @@ export const setupDelegatedButtonListener = () => {
         ".weight-bold.line-height-default.align-center.size-default.text-size-default.variant-success.numeric.with-icon-space.truncate.svelte-1d6bfct"
       );
 
-      console.log("Vor dem Aktualisieren des Ziel-<span>-Elements", lastValue);
-
       if (targetSpanElement && lastValue) {
         targetSpanElement.textContent = lastValue;
-        console.log("Nach dem Aktualisieren des Ziel-<span>-Elements");
       }
     }
   });
