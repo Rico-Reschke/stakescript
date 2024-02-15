@@ -47,5 +47,5 @@ export const updateElementValue = async () => {
 
   setInterval(() => {
     extractAndApplyMultiplier(firstElementOverlay, secondElementOverlay);
-  }, 200);
+  }, 500);
 };
