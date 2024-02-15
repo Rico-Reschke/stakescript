@@ -1,6 +1,6 @@
 import { globalState } from "./globals";
 
-export class CurrencyConversion {
+export class currencyConversion {
   private displayElement: HTMLElement;
 
   constructor(selector: string) {
