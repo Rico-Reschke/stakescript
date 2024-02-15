@@ -1,3 +1,4 @@
+import { CurrencyConversion } from "./CurrencyConversion";
 import { setupDelegatedButtonListener } from "./buttonListener";
 import { createAndAddInputElement } from "./utils";
 import { wait_for } from "./wait_for";
@@ -37,6 +38,16 @@ export async function stakeScript() {
   if (!firstElementOverlay) {
     throw new Error("First element overlay could not be created");
   }
+
+  const currencyConversion = new CurrencyConversion(
+    ".currency-conversion .svelte-eh26te"
+  );
+
+  firstElementOverlay.addEventListener("input", () => {
+    const bitcoinAmount = parseFloat(firstElementOverlay.value) || 0;
+    currencyConversion.updateDisplay(bitcoinAmount);
+  });
+
   setupDelegatedButtonListener();
 }
 
