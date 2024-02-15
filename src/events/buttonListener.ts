@@ -1,6 +1,7 @@
 import { DynamicCurrencyConverter } from "../components/currencyConversion";
 import { updateElementValue } from "../services/gameService";
 import { disableOverlay, enableOverlay } from "../utils/overlayControl";
+import { wait_for } from "../utils/wait_for";
 
 export const setupDelegatedButtonListener = () => {
   document.body.addEventListener("click", async (event) => {
@@ -33,7 +34,43 @@ export const setupDelegatedButtonListener = () => {
       targetElement.dataset.test === "cashout-button"
     ) {
       console.log("Cashout button clicked");
-      // Hier könnte weitere Logik stehen
+
+      let lastValue = ""; // Initialisieren Sie lastValue mit dem Startwert des Elements oder einem leeren String
+
+      const checkForChanges = () => {
+        const inputElement = document.querySelector(
+          'input[data-test="profit-input"]'
+        ) as HTMLInputElement; // Typecast inputElement to HTMLInputElement
+        if (!inputElement) return; // Ensure that the element exists
+
+        const currentValue = inputElement.value;
+        if (lastValue !== currentValue) {
+          console.log("Wert geändert: ", currentValue);
+          lastValue = currentValue; // Update lastValue for the next check
+        }
+      };
+
+      // Starten Sie das Intervall, um das Element regelmäßig zu überprüfen
+      setInterval(checkForChanges, 200); // Überprüfen Sie alle 200 Millisekunden
+
+      await wait_for(
+        () =>
+          !!document.querySelector(
+            ".weight-bold.line-height-default.align-center.size-default.text-size-default.variant-success.numeric.with-icon-space.truncate.svelte-1d6bfct"
+          )
+      );
+
+      // Nachdem das Ziel-<span>-Element erschienen ist, seinen Inhalt aktualisieren
+      const targetSpanElement = document.querySelector(
+        ".weight-bold.line-height-default.align-center.size-default.text-size-default.variant-success.numeric.with-icon-space.truncate.svelte-1d6bfct"
+      );
+
+      console.log("Vor dem Aktualisieren des Ziel-<span>-Elements", lastValue);
+
+      if (targetSpanElement && lastValue) {
+        targetSpanElement.textContent = lastValue;
+        console.log("Nach dem Aktualisieren des Ziel-<span>-Elements");
+      }
     }
   });
 };
