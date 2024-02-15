@@ -17,21 +17,35 @@ export class currencyConversion {
   }
 }
 
-// const dollarValueDisplay = document.querySelector(
-//   "span.label-content.full-width.svelte-1vx6ykn > div.right-align.svelte-5v1hdl > div.currency-conversion.svelte-eh26te > div.svelte-eh26te"
-// );
+export class DollarValueUpdater {
+  private dollarConversionInstance: currencyConversion;
+  private secondElementOverlay: HTMLInputElement;
+  private lastValue: string = '';
 
-// // Funktion, die den Wert von secondElementOverlay liest und den Dollarwert aktualisiert
-// export function updateDollarValueBasedOnSecondElement(
-//   secondElementOverlay: HTMLInputElement
-// ) {
-//   const secondValue = parseFloat(secondElementOverlay.value) || 0;
-//   if (dollarValueDisplay) {
-//     (dollarValueDisplay as unknown as currencyConversion).updateDisplay(
-//       secondValue
-//     );
-//   }
-// }
+  constructor(secondElementSelector: string, conversionDisplaySelector: string) {
+      this.dollarConversionInstance = new currencyConversion(conversionDisplaySelector);
+      const element = document.querySelector(secondElementSelector) as HTMLInputElement;
+      if (!element) {
+          throw new Error("Second element overlay could not be found");
+      }
+      this.secondElementOverlay = element;
+      this.init();
+  }
 
-// // setInterval, um den Wert regelmäßig zu überprüfen und den Dollarwert zu aktualisieren
-// setInterval(updateDollarValueBasedOnSecondElement, 200); // Überprüft alle 200ms
+  private updateDisplay(): void {
+      const secondValue = parseFloat(this.secondElementOverlay.value) || 0;
+      this.dollarConversionInstance.updateDisplay(secondValue);
+      this.lastValue = this.secondElementOverlay.value;
+  }
+
+  private init(): void {
+      // Aktualisieren Sie den Wert einmalig sofort
+      this.updateDisplay();
+      // Und dann kontinuierlich überwachen
+      setInterval(() => {
+          if (this.secondElementOverlay.value !== this.lastValue) {
+              this.updateDisplay();
+          }
+      }, 100);
+  }
+}
