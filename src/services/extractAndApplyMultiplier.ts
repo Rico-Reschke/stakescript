@@ -1,4 +1,4 @@
-import { wait_for } from "./wait_for";
+import { wait_for } from "../utils/wait_for";
 
 export async function extractAndApplyMultiplier(
   firstElementOverlay: HTMLInputElement,

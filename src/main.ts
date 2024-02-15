@@ -1,7 +1,7 @@
-import { setupDelegatedButtonListener } from "./buttonListener";
-import { currencyConversion } from "./currencyConversion";
-import { createAndAddInputElement } from "./utils";
-import { wait_for } from "./wait_for";
+import { BaseCurrencyConverter } from "./components/currencyConversion";
+import { setupDelegatedButtonListener } from "./events/buttonListener";
+import { createAndAddInputElement } from "./utils/utils";
+import { wait_for } from "./utils/wait_for";
 
 export async function stakeScript() {
   await wait_for(
@@ -39,7 +39,7 @@ export async function stakeScript() {
     throw new Error("First element overlay could not be created");
   }
 
-  const CurrencyConversion = new currencyConversion(
+  const CurrencyConversion = new BaseCurrencyConverter(
     ".currency-conversion .svelte-eh26te"
   );
 

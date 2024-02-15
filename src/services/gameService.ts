@@ -1,6 +1,6 @@
+import { createAndAddInputElement } from "../utils/utils";
+import { wait_for } from "../utils/wait_for";
 import { extractAndApplyMultiplier } from "./extractAndApplyMultiplier";
-import { createAndAddInputElement } from "./utils";
-import { wait_for } from "./wait_for";
 
 export const updateElementValue = async () => {
   await wait_for(
@@ -38,7 +38,7 @@ export const updateElementValue = async () => {
     value: firstElementOverlay.value, // Wert des ersten Elements verwenden
     backgroundColor: "#2F4553",
     color: "#ffffff",
-    readOnly: false, // Basierend auf Ihrem Anwendungsfall
+    readOnly: true, // Basierend auf Ihrem Anwendungsfall
   });
 
   if (!secondElementOverlay) {
