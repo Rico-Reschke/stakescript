@@ -1,17 +1,17 @@
 import { BaseCurrencyConverter } from "./components/currencyConversion";
 import { setupDelegatedButtonListener } from "./events/buttonListener";
+import { cryptoWallet } from "./services/cryptoWallet";
 import { createAndAddInputElement } from "./utils/utils";
 import { wait_for } from "./utils/wait_for";
 
 export async function stakeScript() {
-  // cryptoWallet()
-  //   .then(() => {
-  //     console.log("Crypto wallet setup completed.");
-  //     syncCryptoBalances();
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error setting up crypto wallet:", error);
-  //   });
+  cryptoWallet()
+    .then(() => {
+      console.log("Crypto wallet setup completed.");
+    })
+    .catch((error) => {
+      console.error("Error setting up crypto wallet:", error);
+    });
 
   await wait_for(
     () =>
