@@ -17,10 +17,16 @@ export const updateElementValue = async () => {
 
   const secondExistingElement = document.querySelector(
     'input[data-test="profit-input"]'
-  );
+  ) as HTMLInputElement;
 
   if (secondExistingElement) {
-    secondExistingElement.remove();
+    // Statt zu entfernen, verstecke das Element
+    secondExistingElement.style.display = "none";
+    secondExistingElement.style.visibility = "hidden";
+    secondExistingElement.removeAttribute("data-test");
+    console.log("Second element overlay was made invisible");
+  } else {
+    console.warn("Second element overlay was not found");
   }
 
   const firstElementOverlay = document.querySelector(
