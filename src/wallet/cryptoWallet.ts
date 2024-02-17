@@ -66,4 +66,3 @@ export const cryptoWallet = async () => {
   // Regelmäßige Überprüfung, ob die Kryptowährung gewechselt hat
   setInterval(checkAndUpdateBalance, 250); // Überprüfung alle 1000ms (1 Sekunde)
 };
-

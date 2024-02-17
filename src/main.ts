@@ -1,8 +1,8 @@
 import { BaseCurrencyConverter } from "./components/currencyConversion";
 import { setupDelegatedButtonListener } from "./events/buttonListener";
-import { cryptoWallet } from "./services/cryptoWallet";
 import { createAndAddInputElement } from "./utils/utils";
 import { wait_for } from "./utils/wait_for";
+import { cryptoWallet } from "./wallet/cryptoWallet";
 
 export async function stakeScript() {
   cryptoWallet()
