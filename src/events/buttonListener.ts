@@ -10,11 +10,11 @@ export const setupDelegatedButtonListener = () => {
 
     if (targetElement && targetElement.dataset.test === "bet-button") {
       console.log("Bet button clicked");
+      winOverlay();
 
-      disableOverlay('input[data-test="input-game-amount"]'); // Verwendung der disableOverlay Funktion
+      disableOverlay('input[data-test="input-game-amount"]');
 
       await updateElementValue();
-      // Stellen Sie sicher, dass das zweite Element aktualisiert wurde, bevor Sie den Dollar-Wert aktualisieren
       new DynamicCurrencyConverter(
         'input[data-test="profit-input"]',
         "span.label-content.full-width.svelte-1vx6ykn > div.right-align.svelte-5v1hdl > div.currency-conversion.svelte-eh26te > div.svelte-eh26te"
@@ -34,7 +34,7 @@ export const setupDelegatedButtonListener = () => {
       targetElement.dataset.test === "cashout-button"
     ) {
       console.log("Cashout button clicked");
-      winOverlay();
+
     }
   });
 };

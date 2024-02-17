@@ -16,7 +16,7 @@ export const winOverlay = async () => {
     }
   };
 
-  setInterval(checkForChanges, 250);
+  setInterval(checkForChanges, 100);
 
   await wait_for(
     () =>
