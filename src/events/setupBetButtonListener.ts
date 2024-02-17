@@ -9,7 +9,7 @@ export function setupBetButtonListener(
   betButton.addEventListener("click", async () => {
     disableOverlay(overlaySelector);
     await updateElementValue();
-    // Weitere Logik zur Aktualisierung des Overlays
-    enableOverlay(overlaySelector); // Möglicherweise verzögert oder bedingt
+
+    enableOverlay(overlaySelector);
   });
 }

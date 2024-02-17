@@ -34,12 +34,11 @@ export async function stakeScript() {
     firstExistingElement.remove();
   }
 
-  // Verwenden Sie createAndAddInputElement für das erste Input-Element
   const firstElementOverlay = createAndAddInputElement(firstParentElement, {
     type: "number",
     className: "input spacing-expanded svelte-3axy6s",
     dataTest: "input-game-amount",
-    value: "0.00000000", // Startwert
+    value: "0.00000000",
     backgroundColor: "#0F212E",
     color: "#ffffff",
   });

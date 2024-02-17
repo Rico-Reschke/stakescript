@@ -1,6 +1,6 @@
 import { wait_for } from "../utils/wait_for";
 
-let lastValue = ""; // Initialisieren Sie lastValue mit dem Startwert des Elements oder einem leeren String
+let lastValue = "";
 
 export const winOverlay = async () => {
   const checkForChanges = () => {

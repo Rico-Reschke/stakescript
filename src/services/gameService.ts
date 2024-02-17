@@ -38,13 +38,13 @@ export const updateElementValue = async () => {
   }
 
   const secondElementOverlay = createAndAddInputElement(secondParentElement, {
-    type: "number", // Stellen Sie sicher, dass der Typ korrekt ist, basierend auf Ihrem Anwendungsfall
+    type: "number", 
     className: "input spacing-expanded svelte-3axy6s",
-    dataTest: "profit-input", // Stellen Sie sicher, dass der dataTest-Wert korrekt ist, basierend auf Ihrem Anwendungsfall
-    value: firstElementOverlay.value, // Wert des ersten Elements verwenden
+    dataTest: "profit-input", 
+    value: firstElementOverlay.value,
     backgroundColor: "#2F4553",
     color: "#ffffff",
-    readOnly: true, // Basierend auf Ihrem Anwendungsfall
+    readOnly: true,
   });
 
   if (!secondElementOverlay) {

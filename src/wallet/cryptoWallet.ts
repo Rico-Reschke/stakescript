@@ -30,10 +30,9 @@ export const cryptoWallet = async () => {
 
     if (cryptoType !== lastCryptoType) {
       lastCryptoType = cryptoType;
-      // Prüfe, ob ein gespeicherter Wert vorhanden ist
+
       let storedAmount = localStorage.getItem(`cryptoBalance_${cryptoType}`);
 
-      // Falls kein gespeicherter Wert vorhanden ist oder eine manuelle Eingabe erwünscht ist
       if (
         !storedAmount ||
         confirm("Möchtest du die Balance manuell aktualisieren?")

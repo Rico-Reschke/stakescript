@@ -46,9 +46,7 @@ export class DynamicCurrencyConverter {
   }
 
   private init(): void {
-    // Aktualisieren Sie den Wert einmalig sofort
     this.updateDisplay();
-    // Und dann kontinuierlich überwachen
     setInterval(() => {
       if (this.secondElementOverlay.value !== this.lastValue) {
         this.updateDisplay();

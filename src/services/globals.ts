@@ -1,5 +1,5 @@
 export const globalState = {
-  currentBitcoinPriceInDollar: 46491, // Beispiel für eine globale Variable
+  currentBitcoinPriceInDollar: 46491,
 };
 
 export function updateBitcoinPrice(price: number) {

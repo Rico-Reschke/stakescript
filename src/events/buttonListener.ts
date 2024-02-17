@@ -25,10 +25,10 @@ export const setupDelegatedButtonListener = () => {
           'button[data-test="bet-button"]'
         );
         if (betButton && !betButton.hasAttribute("disabled")) {
-          enableOverlay('input[data-test="input-game-amount"]'); // Verwendung der enableOverlay Funktion
-          clearInterval(intervalId); // Stoppt das Intervall, wenn nicht mehr benötigt
+          enableOverlay('input[data-test="input-game-amount"]');
+          clearInterval(intervalId);
         }
-      }, 250); // Überprüfen alle 500ms
+      }, 250);
     } else if (
       targetElement &&
       targetElement.dataset.test === "cashout-button"
