@@ -20,10 +20,10 @@ export const updateElementValue = async () => {
   ) as HTMLInputElement;
 
   if (secondExistingElement) {
-    // Statt zu entfernen, verstecke das Element
     secondExistingElement.style.display = "none";
     secondExistingElement.style.visibility = "hidden";
     secondExistingElement.removeAttribute("data-test");
+    secondExistingElement.removeAttribute("class");
     console.log("Second element overlay was made invisible");
   } else {
     console.warn("Second element overlay was not found");

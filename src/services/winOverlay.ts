@@ -5,7 +5,7 @@ let lastValue = ""; // Initialisieren Sie lastValue mit dem Startwert des Elemen
 export const winOverlay = async () => {
   const checkForChanges = () => {
     const inputElement = document.querySelector(
-      'input[data-test="profit-input"]'
+      'input[class="input spacing-expanded svelte-3axy6s"][data-test="profit-input"][style="background-color: rgb(47, 69, 83); color: rgb(255, 255, 255);"]'
     ) as HTMLInputElement; // Typecast inputElement to HTMLInputElement
     if (!inputElement) return; // Ensure that the element exists
 
@@ -16,8 +16,7 @@ export const winOverlay = async () => {
     }
   };
 
-  // Starten Sie das Intervall, um das Element regelmäßig zu überprüfen
-  setInterval(checkForChanges, 250); // Überprüfen Sie alle 200 Millisekunden
+  setInterval(checkForChanges, 250);
 
   await wait_for(
     () =>
@@ -26,7 +25,6 @@ export const winOverlay = async () => {
       )
   );
 
-  // Nachdem das Ziel-<span>-Element erschienen ist, seinen Inhalt aktualisieren
   const targetSpanElement = document.querySelector(
     ".weight-bold.line-height-default.align-center.size-default.text-size-default.variant-success.numeric.with-icon-space.truncate.svelte-1d6bfct"
   );

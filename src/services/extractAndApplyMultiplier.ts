@@ -18,7 +18,7 @@ export async function extractAndApplyMultiplier(
     const newValue = firstValue * multiplier;
 
     if (secondElementOverlay) {
-      secondElementOverlay.value = newValue.toFixed(8); // Stellen Sie die Genauigkeit nach Bedarf ein
+      secondElementOverlay.value = newValue.toFixed(8);
     }
   }
 }
