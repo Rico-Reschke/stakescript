@@ -7,7 +7,7 @@ export const stopBalanceCheckInterval = () => {
   if (balanceCheckInterval !== null) {
     clearInterval(balanceCheckInterval);
     balanceCheckInterval = null;
-    console.log("Balance-Check-Interval gestoppt.");
+    console.log("Balance-Check-Interval stopped.");
   }
 };
 
@@ -78,10 +78,10 @@ export const cryptoWallet = async () => {
 
       if (
         !storedAmount ||
-        confirm("Möchtest du die Balance manuell aktualisieren?")
+        confirm("Do you want to update the balance manually?")
       ) {
         storedAmount = prompt(
-          `Bitte gib die neue Balance für ${cryptoType} ein:`,
+          `Please pass the new balance for ${cryptoType}:`,
           storedAmount || "0.00000000"
         );
         if (storedAmount !== null) {

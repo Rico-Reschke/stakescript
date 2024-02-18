@@ -6,7 +6,7 @@ export const stopBalanceCheckInterval = () => {
   if (balanceCheckInterval !== null) {
     clearInterval(balanceCheckInterval);
     balanceCheckInterval = null;
-    console.log("Balance-Check-Interval gestoppt.");
+    console.log("Balance-Check-Interval stopped.");
   }
 };
 
@@ -16,7 +16,7 @@ export const activateDropdown = (checkAndUpdateBalance: () => void) => {
 
 const deactivateDropdown = () => {
   stopBalanceCheckInterval();
-  console.log("Dropdown deaktiviert.");
+  console.log("Dropdown deaktivated.");
 };
 
 export const dropdownHandler = () => {
@@ -27,11 +27,11 @@ export const dropdownHandler = () => {
 
     if (dropdown && !dropdown.contains(event.target as Node)) {
       if (dropdownIsVisible(dropdown)) {
-        console.log("Innerhalb des Dropdowns geklickt");
+        console.log("Clicked within the dropdown");
         syncCryptoBalances();
       }
     } else {
-      console.log("Außerhalb des Dropdowns geklickt");
+      console.log("Clicked outside the dropdown");
       deactivateDropdown();
     }
   };
