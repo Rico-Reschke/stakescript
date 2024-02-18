@@ -1,4 +1,5 @@
 import { wait_for } from "../utils/wait_for";
+import { creditWinToWallet } from "../wallet/creditWinToWallet";
 
 let lastValue = "";
 
@@ -30,6 +31,10 @@ export const winOverlay = async () => {
   );
 
   if (targetSpanElement && lastValue) {
-    targetSpanElement.textContent = lastValue;
+    const winAmount = parseFloat(lastValue);
+    if (!isNaN(winAmount) && winAmount > 0) {
+      creditWinToWallet(winAmount); // Rufe diese Funktion auf, um das Guthaben zu aktualisieren
+    }
+    targetSpanElement.textContent = lastValue; // Dies setzt voraus, dass lastValue der Gewinnbetrag ist
   }
 };
