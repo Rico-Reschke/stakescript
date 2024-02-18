@@ -37,7 +37,7 @@ export const dropdownHandler = () => {
   };
 
   function dropdownIsVisible(dropdownElement: HTMLElement) {
-    return dropdownElement.style.display !== "none"; // Beispiel
+    return dropdownElement.style.display !== "none";
   }
 
   document.addEventListener("click", handleDocumentClick);

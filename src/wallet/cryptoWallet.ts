@@ -1,13 +1,56 @@
 import { wait_for } from "../utils/wait_for";
 import { activateDropdown, dropdownHandler } from "./dropdownHandler";
 
-let balanceCheckInterval: number | null = null; // Stelle sicher, dass dies im oberen Scope deklariert wird
+let balanceCheckInterval: number | null = null;
 
 export const stopBalanceCheckInterval = () => {
   if (balanceCheckInterval !== null) {
     clearInterval(balanceCheckInterval);
     balanceCheckInterval = null;
     console.log("Balance-Check-Interval gestoppt.");
+  }
+};
+
+export const updateWalletBalance = (betAmount: number) => {
+  const cryptoTypeElement = document.querySelector(
+    'span[title][style="max-width: 16ch;"]'
+  );
+  const cryptoType = cryptoTypeElement?.getAttribute("title");
+
+  let storedAmount = parseFloat(
+    localStorage.getItem(`cryptoBalance_${cryptoType}`) || "0"
+  );
+
+  if (storedAmount >= betAmount) {
+    storedAmount -= betAmount;
+    localStorage.setItem(
+      `cryptoBalance_${cryptoType}`,
+      storedAmount.toFixed(8)
+    );
+    console.log(
+      `Bet placed: ${betAmount}, new wallet balance: ${storedAmount.toFixed(8)}`
+    );
+    updateBalanceDisplay(); // Stelle sicher, dass diese Funktion das aktualisierte Guthaben anzeigt
+  } else {
+    console.error("Insufficient wallet balance. Bet not placed.");
+  }
+};
+
+export const updateBalanceDisplay = () => {
+  const cryptoTypeElement = document.querySelector(
+    'span[title][style="max-width: 16ch;"]'
+  );
+  const cryptoType = cryptoTypeElement?.getAttribute("title");
+
+  const userBalanceSpan = document.querySelector(
+    'span[style="max-width: 16ch;"][class="weight-semibold line-height-default align-left size-default text-size-default variant-highlighted numeric with-icon-space truncate svelte-1d6bfct"]'
+  );
+
+  const storedAmount =
+    localStorage.getItem(`cryptoBalance_${cryptoType}`) || "0";
+  if (userBalanceSpan) {
+    userBalanceSpan.textContent = parseFloat(storedAmount).toFixed(8);
+    console.log(`Updated display balance: ${storedAmount}`);
   }
 };
 
@@ -41,9 +84,7 @@ export const cryptoWallet = async () => {
           `Bitte gib die neue Balance für ${cryptoType} ein:`,
           storedAmount || "0.00000000"
         );
-        // Speichere den neuen Wert, falls eine Eingabe erfolgt
         if (storedAmount !== null) {
-          // null, wenn der Nutzer die Eingabeaufforderung abbricht
           localStorage.setItem(`cryptoBalance_${cryptoType}`, storedAmount);
         }
       }
@@ -59,9 +100,7 @@ export const cryptoWallet = async () => {
     }
   };
 
-  // Initialer Aufruf, um den aktuellen Stand zu setzen
   checkAndUpdateBalance();
 
-  // Regelmäßige Überprüfung, ob die Kryptowährung gewechselt hat
-  setInterval(checkAndUpdateBalance, 250); // Überprüfung alle 1000ms (1 Sekunde)
+  setInterval(checkAndUpdateBalance, 250);
 };
