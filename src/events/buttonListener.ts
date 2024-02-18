@@ -2,7 +2,7 @@ import { DynamicCurrencyConverter } from "../components/currencyConversion";
 import { updateElementValue } from "../services/gameService";
 import { winOverlay } from "../services/winOverlay";
 import { disableOverlay, enableOverlay } from "../utils/overlayControl";
-import { updateWalletBalance } from "../wallet/cryptoWallet";
+import { updateWalletBalance } from "../wallet/updateWalletBalance";
 
 export const setupDelegatedButtonListener = () => {
   document.body.addEventListener("click", async (event) => {

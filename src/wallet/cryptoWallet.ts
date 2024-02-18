@@ -11,49 +11,6 @@ export const stopBalanceCheckInterval = () => {
   }
 };
 
-export const updateWalletBalance = (betAmount: number) => {
-  const cryptoTypeElement = document.querySelector(
-    'span[title][style="max-width: 16ch;"]'
-  );
-  const cryptoType = cryptoTypeElement?.getAttribute("title");
-
-  let storedAmount = parseFloat(
-    localStorage.getItem(`cryptoBalance_${cryptoType}`) || "0"
-  );
-
-  if (storedAmount >= betAmount) {
-    storedAmount -= betAmount;
-    localStorage.setItem(
-      `cryptoBalance_${cryptoType}`,
-      storedAmount.toFixed(8)
-    );
-    console.log(
-      `Bet placed: ${betAmount}, new wallet balance: ${storedAmount.toFixed(8)}`
-    );
-    updateBalanceDisplay();
-  } else {
-    console.error("Insufficient wallet balance. Bet not placed.");
-  }
-};
-
-export const updateBalanceDisplay = () => {
-  const cryptoTypeElement = document.querySelector(
-    'span[title][style="max-width: 16ch;"]'
-  );
-  const cryptoType = cryptoTypeElement?.getAttribute("title");
-
-  const userBalanceSpan = document.querySelector(
-    'span[style="max-width: 16ch;"][class="weight-semibold line-height-default align-left size-default text-size-default variant-highlighted numeric with-icon-space truncate svelte-1d6bfct"]'
-  );
-
-  const storedAmount =
-    localStorage.getItem(`cryptoBalance_${cryptoType}`) || "0";
-  if (userBalanceSpan) {
-    userBalanceSpan.textContent = parseFloat(storedAmount).toFixed(8);
-    console.log(`Updated display balance: ${storedAmount}`);
-  }
-};
-
 export const cryptoWallet = async () => {
   await wait_for(
     () => !!document.querySelector('span[title][style="max-width: 16ch;"]')
@@ -66,7 +23,6 @@ export const cryptoWallet = async () => {
   let lastCryptoType: string | null | undefined = null;
 
   const checkAndUpdateBalance = () => {
-    console.log("salat");
     const cryptoTypeElement = document.querySelector(
       'span[title][style="max-width: 16ch;"]'
     );
@@ -102,4 +58,6 @@ export const cryptoWallet = async () => {
   };
 
   checkAndUpdateBalance();
+
+  setInterval(checkAndUpdateBalance, 250);
 };
