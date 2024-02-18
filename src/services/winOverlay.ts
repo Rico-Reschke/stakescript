@@ -11,7 +11,7 @@ export const winOverlay = async () => {
 
     const currentValue = inputElement.value;
     if (lastValue !== currentValue) {
-      console.log("Wert geändert: ", currentValue);
+      console.log("Value changed: ", currentValue);
       lastValue = currentValue; // Update lastValue for the next check
     }
   };

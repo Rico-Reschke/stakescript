@@ -30,7 +30,7 @@ export const updateWalletBalance = (betAmount: number) => {
     console.log(
       `Bet placed: ${betAmount}, new wallet balance: ${storedAmount.toFixed(8)}`
     );
-    updateBalanceDisplay(); // Stelle sicher, dass diese Funktion das aktualisierte Guthaben anzeigt
+    updateBalanceDisplay();
   } else {
     console.error("Insufficient wallet balance. Bet not placed.");
   }
@@ -66,6 +66,7 @@ export const cryptoWallet = async () => {
   let lastCryptoType: string | null | undefined = null;
 
   const checkAndUpdateBalance = () => {
+    console.log("salat");
     const cryptoTypeElement = document.querySelector(
       'span[title][style="max-width: 16ch;"]'
     );
@@ -101,6 +102,4 @@ export const cryptoWallet = async () => {
   };
 
   checkAndUpdateBalance();
-
-  setInterval(checkAndUpdateBalance, 250);
 };
